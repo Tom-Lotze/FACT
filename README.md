@@ -3,6 +3,9 @@ Repo for project for Fairness, Accountability, Confidentialy and Transparency fo
 
 ## Collaborators
 Tom Lotze
+
 Berend Jansen
+
 Stan Lochtenberg
+
 Cees Kaandorp
