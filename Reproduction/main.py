@@ -3,7 +3,7 @@
 # @Authors: Tom Lotze, Berend Jansen
 # @Date:   2020-01-08 12:16:10
 # @Last Modified by:   TomLotze
-# @Last Modified time: 2020-01-08 13:42:39
+# @Last Modified time: 2020-01-08 17:16:17
 
 # imports
 from __future__ import division, print_function, absolute_import
@@ -12,6 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 
 
 # import helper functions
@@ -75,16 +76,21 @@ n_map_3 = 32
 n_map_4 = 10
 
 # the shapes of each layer's filter
-filter_shape_1 = [f_1, f_1, n_input_channel, n_map_1]
-filter_shape_2 = [f_2, f_2, n_map_1, n_map_2]
-filter_shape_3 = [f_3, f_3, n_map_2, n_map_3]
-filter_shape_4 = [f_4, f_4, n_map_3, n_map_4]
 
-# strides for each layer
-stride_1 = [1, s_1, s_1, 1]
-stride_2 = [1, s_2, s_2, 1]
-stride_3 = [1, s_3, s_3, 1]
-stride_4 = [1, s_4, s_4, 1]
+# [out channel, in_channel, 3, 3
+
+filter_shape_1 = [n_map_1, n_input_channel, f_1, f_1]
+filter_shape_2 = [n_map_2, n_map_1, f_2, f_2]
+filter_shape_3 = [n_map_3, n_map_2, f_3, f_3]
+filter_shape_4 = [n_map_4, n_map_3, f_4, f_4]
+
+# strides for each layer (changed to tuples)
+stride_1 = [s_1, s_1]
+stride_2 = [s_2, s_2]
+stride_3 = [s_3, s_3]
+stride_4 = [s_4, s_4]
+
+print(type(stride_1))
 
 
 
@@ -146,9 +152,67 @@ print(last_layer['w'].shape)
 
 
 
-######## IMPORT DATA #########
+######## FUNCTIONS FOR LAYERS #########
+
+# padding can be either "SAME" or "VALID"
+def conv_layer(input, filter, bias, strides, padding="VALID",
+               nonlinearity = nn.ReLU()):
+    conv = F.conv2d(input, filter, bias=bias, stride=strides,
+       padding=padding)
+    out = nonlinearity(conv)
+    return out
+#### STRIDE MUST BE TUPLE FOR TORCH, IS A LIST IN TENSORFLOW
+#### PADDING IS DIFFERENT, TF USES SAME/VALID, TORCH A INT OR LIST OF INTS
+### IS THE FILTER THE SAME AS WEIGHTS ARGUMENT FOR THE CONV2D?
+
+# tensorflow's conv2d_transpose needs to know the shape of the output
+def deconv_layer(input, filter, bias, strides, padding="VALID",
+                 nonlinearity=nn.ReLU()):
+    deconv = F.conv_transpose2d(input, filter, bias=bias, stride=strides,
+                                padding=padding)
+    out = nonlinearity(deconv)
+    return out
+
+def fc_layer(input, weight, bias, nonlinearity=nn.ReLU()):
+    return nonlinearity(torch.mm(input, weight) + bias)
 
 
+######## CONSTRUCT THE MODEL #########
+
+# create X
+
+X = torch.empty(batch_size, n_input_channel, input_width, input_height)
+
+PADDING_FLAG = 1
+# eln means the output of the nth layer of the encoder
+el1 = conv_layer(X, weights['enc_f1'], biases['enc_b1'], stride_1, PADDING_FLAG)
+el2 = conv_layer(el1, weights['enc_f2'], biases['enc_b2'], stride_2, PADDING_FLAG)
+el3 = conv_layer(el2, weights['enc_f3'], biases['enc_b3'], stride_3, PADDING_FLAG)
+el4 = conv_layer(el3, weights['enc_f4'], biases['enc_b4'], stride_4, PADDING_FLAG)
+
+# we compute the output shape of each layer because the deconv_layer function
+# requires it
+# I THINK THIS WOULD NOT BE NECESSARY IN TORCH (THIS ARGUMENT NOT NEEDED)
+# l1_shape = el1.get_shape().as_list()
+# l2_shape = el2.get_shape().as_list()
+# l3_shape = el3.get_shape().as_list()
+# l4_shape = el4.get_shape().as_list()
+
+l4_shape = el4.shape
+print("l4_shape", l4_shape)
+
+flatten_size = l4_shape[1] * l4_shape[2] * l4_shape[3]
+n_features = flatten_size
+
+# feature vectors is the flattened output of the encoder
+feature_vectors = torch.reshape(el4, shape=[-1, flatten_size])
+
+# the list prototype feature vectors
+prototype_feature_vectors = nn.Parameter(torch.empty(size=
+                                        [n_prototypes, n_features],
+                                        dtype=torch.float32).uniform_())
+
+print(prototype_feature_vectors)
 
 
 
