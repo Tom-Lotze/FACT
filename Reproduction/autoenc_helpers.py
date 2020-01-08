@@ -3,11 +3,12 @@
 # @Author: TomLotze
 # @Date:   2020-01-08 12:54:42
 # @Last Modified by:   TomLotze
-# @Last Modified time: 2020-01-08 12:55:12
+# @Last Modified time: 2020-01-08 17:20:39
 
 
 import os
 import torch
+import numpy as np
 
 def makedirs(path):
     '''
@@ -26,9 +27,9 @@ def list_of_distances(X, Y):
     where the distance metric used is the sqared euclidean distance.
     The computation is achieved through a clever use of broadcasting.
     '''
-    XX = tf.reshape(list_of_norms(X), shape=(-1, 1))
-    YY = tf.reshape(list_of_norms(Y), shape=(1, -1))
-    output = XX + YY - 2 * tf.matmul(X, tf.transpose(Y))
+    XX = torch.reshape(list_of_norms(X), shape=(-1, 1))
+    YY = torch.reshape(list_of_norms(Y), shape=(1, -1))
+    output = XX + YY - 2 * torch.mm(X, torch.transpose(Y))
 
     return output
 
@@ -38,7 +39,7 @@ def list_of_norms(X):
         [d(x_1, x_1), d(x_2, x_2), ... , d(x_n, x_n)], where the distance
     function is the squared euclidean distance.
     '''
-    return tf.reduce_sum(tf.pow(X, 2), axis=1)
+    return tf.reduce_sum(np.pow(X, 2), axis=1)
 
 def print_and_write(str, file):
     '''
