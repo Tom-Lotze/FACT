@@ -3,7 +3,7 @@
 # @Authors: Tom Lotze, Berend Jansen
 # @Date:   2020-01-08 12:16:10
 # @Last Modified by:   TomLotze
-# @Last Modified time: 2020-01-08 13:07:30
+# @Last Modified time: 2020-01-08 13:42:39
 
 # imports
 from __future__ import division, print_function, absolute_import
@@ -16,7 +16,7 @@ import torch.nn as nn
 
 # import helper functions
 from autoenc_helpers import makedirs, list_of_distances, print_and_write, list_of_norms
-from data_preprocessing import batch_elastic_transform
+# from data_preprocessing import batch_elastic_transform
 
 ######## IMPORT DATA #########
 
@@ -50,6 +50,7 @@ lambda_2 = 1 # cluster training examples around prototypes in latent space
 input_height = input_width =  28    # MNIST data input shape 
 n_input_channel = 1     # the number of color channels; for MNIST is 1.
 input_size = input_height * input_width * n_input_channel   # 784
+n_classes = 10
 
 # Network Parameters
 n_prototypes = 15         # the number of prototypes
@@ -94,7 +95,53 @@ stride_4 = [1, s_4, s_4, 1]
 
 
 ######## INITIALIZE THE ENCODER AND DECODER #########
+    
+std_weights = 0.01
 
+weights = {
+    'enc_f1': nn.Parameter(std_weights * torch.randn(filter_shape_1,
+                                           dtype=torch.float32)),
+    'enc_f2': nn.Parameter(std_weights * torch.randn(filter_shape_2,
+                                           dtype=torch.float32)), 
+    'enc_f3': nn.Parameter(std_weights * torch.randn(filter_shape_3,
+                                           dtype=torch.float32)), 
+    'enc_f4': nn.Parameter(std_weights * torch.randn(filter_shape_4,
+                                           dtype=torch.float32)), 
+    'dec_f4': nn.Parameter(std_weights * torch.randn(filter_shape_4,
+                                           dtype=torch.float32)), 
+    'dec_f3': nn.Parameter(std_weights * torch.randn(filter_shape_3,
+                                           dtype=torch.float32)), 
+    'dec_f2': nn.Parameter(std_weights * torch.randn(filter_shape_2,
+                                           dtype=torch.float32)),
+    'dec_f1': nn.Parameter(std_weights * torch.randn(filter_shape_1,
+                                           dtype=torch.float32)),
+}
+print("weights")
+for weight in weights.keys():
+    print(weight, weights[weight].shape)
+
+biases = {
+    'enc_b1': nn.Parameter(torch.zeros([n_map_1], dtype=torch.float32)),
+    'enc_b2': nn.Parameter(torch.zeros([n_map_2], dtype=torch.float32)),
+    'enc_b3': nn.Parameter(torch.zeros([n_map_3], dtype=torch.float32)),
+    'enc_b4': nn.Parameter(torch.zeros([n_map_4], dtype=torch.float32)),
+    'dec_b4': nn.Parameter(torch.zeros([n_map_3], dtype=torch.float32)),
+    'dec_b3': nn.Parameter(torch.zeros([n_map_2], dtype=torch.float32)),
+    'dec_b2': nn.Parameter(torch.zeros([n_map_1], dtype=torch.float32)),
+    'dec_b1': nn.Parameter(torch.zeros([n_input_channel], dtype=torch.float32)),
+}
+
+print("biases")
+for b in biases.keys():
+    print(b, biases[b].shape)
+
+last_layer = {
+    'w': nn.Parameter(torch.randn([n_prototypes, n_classes],
+                                       dtype=torch.float32))
+}
+
+print("last_layer")
+print(last_layer['w'].shape)
 
 
 
