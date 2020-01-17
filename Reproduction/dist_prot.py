@@ -3,7 +3,7 @@
 # @Author: TomLotze
 # @Date:   2020-01-17 12:38:54
 # @Last Modified by:   TomLotze
-# @Last Modified time: 2020-01-17 15:04:12
+# @Last Modified time: 2020-01-17 15:28:23
 
 
 
@@ -15,9 +15,9 @@ def print_distances(input_image, prototypes):
 
     # use the function that
 
-    lodist = list_of_distances()
+    lodist = list_of_distances(prototypes, input)
 
-    return 0
+    return lodist
 
 
 
