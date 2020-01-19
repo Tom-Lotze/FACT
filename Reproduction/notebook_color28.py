@@ -474,8 +474,7 @@ def visualize_prototypes(model, epoch, save=True):
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
             
-model = nn_prototype(15,4,10)
-model = model.to(device)
+
 batch_size_ = 250
 
 # get validation and test set
@@ -484,7 +483,7 @@ test_dl = DataLoader(test_data, batch_size=10000, drop_last=False, shuffle=False
 
 
 # initialize optimizer
-optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+
 
 lambdas_class = [20]
 lambdas_ae = [1, 5, 10, 20, 40]
@@ -497,6 +496,11 @@ for i in range(len(lambdas_class)):
     for j in range(len(lambdas_ae)):
         lambda_ae = lambdas_ae[j]
         for k in range(len(lambdas_2)):
+
+            model = nn_prototype(15,4,10)
+            model = model.to(device)
+            optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+
             lambda_1 = 1
             lambda_2 = lambdas_2[k]
             
@@ -663,23 +667,27 @@ for i in range(len(lambdas_class)):
             t_epochs = list(range(0, len(train_accs)))
             v_epochs = list(range(0, len(valid_accs)))
             test_epochs = list(range(0, len(valid_accs), test_display_step))
-            print('test epochs: ', test_epochs)
-            print('len test_accs', len(test_accs))
-            plots_folder = os.path.join(model_folder, "plots")
-            makedirs(plots_folder)
+            # print('test epochs: ', test_epochs)
+            # print('len test_accs', len(test_accs))
 
-            plt.figure(figsize=(15, 12))
-            plt.plot(t_epochs, train_accs, label="Training accuracy")
-            plt.plot(v_epochs, valid_accs, label="Valid accuracy")
-            plt.plot(test_epochs, test_accs, label="Test accuracy")
-            plt.legend()
-            # plt.show()
-            plt.savefig(plots_folder + '/accs.png')
+            # plots_folder = os.path.join(model_folder, "plots")
+            # makedirs(plots_folder)
 
-            plt.figure(figsize=(15, 12))
-            plt.plot(v_epochs, valid_losses, label="Valid loss")
-            plt.plot(t_epochs, train_losses, label="Training loss")
-            plt.plot(test_epochs, test_losses, label="Test loss")
-            plt.legend()
-            # plt.show()
-            plt.savefig(plots_folder + '/losses.png')
+            # plt.clf()
+            # plt.figure(figsize=(15, 12))
+            # plt.plot(t_epochs, train_accs, label="Training accuracy")
+            # plt.plot(v_epochs, valid_accs, label="Valid accuracy")
+            # plt.plot(test_epochs, test_accs, label="Test accuracy")
+            # plt.legend()
+            # # plt.show()
+            # plt.savefig(plots_folder + '/accs.png')
+            # plt.clf()
+
+            # plt.figure(figsize=(15, 12))
+            # plt.plot(t_epochs, train_losses, label="Training loss")
+            # plt.plot(v_epochs, valid_losses, label="Valid loss")
+            # plt.plot(test_epochs, test_losses, label="Test loss")
+            # plt.legend()
+            # # plt.show()
+            # plt.savefig(plots_folder + '/losses.png')
+            # plt.clf()
