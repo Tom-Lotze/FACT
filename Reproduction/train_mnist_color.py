@@ -50,23 +50,29 @@ gdd.download_file_from_google_drive(
     dest_path='./data/github_data.zip',
     unzip=True, showsize=True)
 
-
 # Parameters dependent on dataset, no input needed
 batch_size = 250
 n_input_channels = 1
 image_size = 28
 if WHICH_DATA_FLAG == "mnist_original":
-    model_folder = model_original
+    model_folder = os.path.join(os.getcwd(), "saved_model",
+                                "mnist_model_standard")
+    # model_folder = model_original
     model_filename = "mnist_original"
 elif WHICH_DATA_FLAG == "mnist_color":
-    model_folder = model_mnist_color
+    model_folder = os.path.join(os.getcwd(), "saved_model",
+                                "mnist_model_color28_")
+    # model_folder = model_mnist_color
     model_filename = "mnist_color"
     n_input_channels = 3
 elif WHICH_DATA_FLAG == "mnist_rgb2gray":
-    model_folder = model_mnist_rgb2gray
+    model_folder = os.path.join(os.getcwd(), "saved_model",
+                                "gray_mnist_model_color28_")
+    # model_folder = model_mnist_rgb2gray
     model_filename = "mnist_rgb2gray"
 elif WHICH_DATA_FLAG == "cifar":
-    model_folder = model_cifar
+    model_folder = os.path.join(os.getcwd(), "saved_model", "cifar")
+    # model_folder = model_cifar
     model_filename = "cifar"
     n_input_channels = 3
     image_size = 32
@@ -764,10 +770,9 @@ for i in range(len(lambdas_class)):
             valid_accs = []
             valid_losses = []
 
-            model_folder = os.path.join(os.getcwd(), "saved_model",
-                                        "mnist_model_color28_" + str(
-                lambda_class) + '_' + str(lambda_ae) + '_' + str(lambda_1) +
-                '_' + str(lambda_2))
+            model_folder += str(lambda_class) + '_' + str(lambda_ae) + '_' \
+                + str(lambda_1) + '_' + str(lambda_2)
+
             makedirs(model_folder)
 
             # Image folder
