@@ -77,8 +77,6 @@ elif WHICH_DATA_FLAG == "cifar":
     n_input_channels = 3
     image_size = 32
 
-img_folder = os.path.join(model_folder, "img")
-
 
 # Helper functions to load cifar (borrowed from Deep Learning Assignment)
 # all cifar10 code below is borrowed from the UvA Deep Learning course
@@ -779,8 +777,7 @@ for i in range(len(lambdas_class)):
             img_folder = os.path.join(model_folder, "img")
             makedirs(img_folder)
 
-            model_filename = "mnist_cae_color28_" + \
-                str(lambda_class) + '_' + str(lambda_ae) + \
+            model_filename += str(lambda_class) + '_' + str(lambda_ae) + \
                 '_' + str(lambda_1) + '_' + str(lambda_2)
 
             # training loop
@@ -965,18 +962,16 @@ for i in range(len(lambdas_class)):
             valid_accs = []
             valid_losses = []
 
-            model_folder = os.path.join(os.getcwd(), "saved_model",
-                                        "mnist_model_color28_" + str(
-                lambda_class) + '_' + str(lambda_ae) + '_' + str(lambda_1) +
-                '_' + str(lambda_2))
+            model_folder += str(lambda_class) + '_' + str(lambda_ae) + '_' \
+                + str(lambda_1) + '_' + str(lambda_2)
+
             makedirs(model_folder)
 
             # Image folder
             img_folder = os.path.join(model_folder, "img")
             makedirs(img_folder)
 
-            model_filename = "mnist_cae_color28_" + \
-                str(lambda_class) + '_' + str(lambda_ae) + \
+            model_filename += str(lambda_class) + '_' + str(lambda_ae) + \
                 '_' + str(lambda_1) + '_' + str(lambda_2)
 
             # training loop
