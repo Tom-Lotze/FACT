@@ -44,20 +44,6 @@ def list_of_norms(X):
 data_folder = os.path.join(os.getcwd(), "data")
 makedirs(data_folder)
 
-# Various model folders
-model_original = os.path.join(os.getcwd(), "models", "mnist_original")
-model_cifar = os.path.join(os.getcwd(), "models", "cifar")
-model_mnist_color = os.path.join(os.getcwd(), "models", "mnist_color")
-model_mnist_rgb2gray = os.path.join(os.getcwd(), "models", "mnist_rgb2gray")
-
-model_folders_list = [model_original, model_cifar,
-                      model_mnist_color, model_mnist_rgb2gray]
-
-# Image folder in every model folder
-for model_folder in model_folders_list:
-    makedirs(os.path.join(model_folder, "img"))
-
-
 # Download datasets
 gdd.download_file_from_google_drive(
     file_id='1fgjFKJ1_2VaPbKROeH-aZJiX52eetw9w',
