@@ -26,7 +26,7 @@ WHICH_DATA_FLAG = "mnist_color"
 # WHICH_DATA_FLAG = "mnist_rgb2gray"
 
 
-# ## Helper functions
+# Helper functions
 
 # borrowed from the original paper of Li et al. (2018)
 def makedirs(path):
@@ -38,7 +38,7 @@ def list_of_norms(X):
     return torch.sum(torch.pow(X, 2), dim=1)
 
 
-# ## Create necessary directories
+# Create necessary directories
 
 # data folder
 data_folder = os.path.join(os.getcwd(), "data")
@@ -59,9 +59,10 @@ for model_folder in model_folders_list:
 
 
 # Download datasets
-gdd.download_file_from_google_drive(file_id='1fgjFKJ1_2VaPbKROeH-aZJiX52eetw9w',
-                                    dest_path='./data/github_data.zip',
-                                    unzip=True, showsize=True)
+gdd.download_file_from_google_drive(
+    file_id='1fgjFKJ1_2VaPbKROeH-aZJiX52eetw9w',
+    dest_path='./data/github_data.zip',
+    unzip=True, showsize=True)
 
 
 # Parameters dependent on dataset, no input needed
