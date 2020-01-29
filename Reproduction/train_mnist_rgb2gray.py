@@ -769,16 +769,18 @@ for i in range(len(lambdas_class)):
             valid_accs = []
             valid_losses = []
 
-            model_folder += str(lambda_class) + '_' + str(lambda_ae) + '_' \
+            model_folder_ext = model_folder
+            model_folder_ext += str(lambda_class) + '_' + str(lambda_ae) + '_' \
                 + str(lambda_1) + '_' + str(lambda_2)
 
-            makedirs(model_folder)
+            makedirs(model_folder_ext)
 
             # Image folder
-            img_folder = os.path.join(model_folder, "img")
+            img_folder = os.path.join(model_folder_ext, "img")
             makedirs(img_folder)
 
-            model_filename += str(lambda_class) + '_' + str(lambda_ae) + \
+            model_filename_ext = model_filename
+            model_filename_ext += str(lambda_class) + '_' + str(lambda_ae) + \
                 '_' + str(lambda_1) + '_' + str(lambda_2)
 
             # training loop
@@ -836,8 +838,8 @@ for i in range(len(lambdas_class)):
                 with torch.no_grad():
                     if epoch % test_display_step == 0:
 
-                        torch.save(model, model_folder + "/" +
-                                   model_filename + "_epoch_"
+                        torch.save(model, model_folder_ext + "/" +
+                                   model_filename_ext + "_epoch_"
                                    + str(epoch) + '.pt')
 
                         visualize_prototypes(model, epoch, save=True)
@@ -915,7 +917,7 @@ for i in range(len(lambdas_class)):
                     print('Valid acc:', valid_accuracy)
 
             # Save results
-            metrics_folder = os.path.join(model_folder, "metrics")
+            metrics_folder = os.path.join(model_folder_ext, "metrics")
             makedirs(metrics_folder)
 
             with open(metrics_folder + '/train_accs.p', 'wb') as f:
@@ -963,16 +965,18 @@ for i in range(len(lambdas_class)):
             valid_accs = []
             valid_losses = []
 
-            model_folder += str(lambda_class) + '_' + str(lambda_ae) + '_' \
+            model_folder_ext = model_folder
+            model_folder_ext += str(lambda_class) + '_' + str(lambda_ae) + '_' \
                 + str(lambda_1) + '_' + str(lambda_2)
 
-            makedirs(model_folder)
+            makedirs(model_folder_ext)
 
             # Image folder
-            img_folder = os.path.join(model_folder, "img")
+            img_folder = os.path.join(model_folder_ext, "img")
             makedirs(img_folder)
 
-            model_filename += str(lambda_class) + '_' + str(lambda_ae) + \
+            model_filename_ext = model_filename
+            model_filename_ext += str(lambda_class) + '_' + str(lambda_ae) + \
                 '_' + str(lambda_1) + '_' + str(lambda_2)
 
             # training loop
