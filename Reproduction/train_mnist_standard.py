@@ -56,7 +56,7 @@ n_input_channels = 1
 image_size = 28
 if WHICH_DATA_FLAG == "mnist_original":
     model_folder = os.path.join(os.getcwd(), "saved_model",
-                                "mnist_model_standard")
+                                "mnist_model_standard_")
     # model_folder = model_original
     model_filename = "mnist_original"
 elif WHICH_DATA_FLAG == "mnist_color":
@@ -71,7 +71,7 @@ elif WHICH_DATA_FLAG == "mnist_rgb2gray":
     # model_folder = model_mnist_rgb2gray
     model_filename = "mnist_rgb2gray"
 elif WHICH_DATA_FLAG == "cifar":
-    model_folder = os.path.join(os.getcwd(), "saved_model", "cifar")
+    model_folder = os.path.join(os.getcwd(), "saved_model", "cifar_")
     # model_folder = model_cifar
     model_filename = "cifar"
     n_input_channels = 3
