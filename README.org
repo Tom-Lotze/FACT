@@ -29,3 +29,20 @@ All files can be found in the folder "Reproduction".
 - train_mnist_color.sh: bash script to train prototype model on
   color MNIST on Surfsara's Lisa cluster.
 
+All python scripts to train models will save the models in the
+"Reproduction/saved_model/" folder. Each model folder will contain the
+trained models, the train/valid/test loss/accuracy stored in pickle
+files, and the decoded prototypes.
+
+To run the files, first create a conda environment from the
+"environment.yml" file. On Surfsara, run the following commands after
+creating the environment:
+#+BEGIN_SRC bash
+module load 2019
+module load Anaconda3/2018.12
+source activate fact
+#+END_SRC
+After activating the environment, use slurm to schedule your job. Example:
+#+BEGIN_SRC bash
+sbatch train_mnist_color.sh
+#+END_SRC
