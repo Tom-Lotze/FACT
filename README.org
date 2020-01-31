@@ -1,7 +1,8 @@
 * FACT
 Repo for project for Fairness, Accountability, Confidentialy and
-Transparency for master AI (Jan 2020). This project focused on
-replicating the paper by [[https://arxiv.org/abs/1710.04806][Oscar et al. (2018)]]. Their implementation can be found [[https://github.com/OscarcarLi/PrototypeDL][here]].
+Transparency for master AI (Jan 2020), University of Amsterdam. This project focused on
+replicating the paper by [[https://arxiv.org/abs/1710.04806][Oscar et al. (2018)]]. Their implementation can
+be found [[https://github.com/OscarcarLi/PrototypeDL][here]].
 
 ** Collaborators
    - Tom Lotze
