@@ -1,0 +1,31 @@
+* FACT
+Repo for project for Fairness, Accountability, Confidentialy and
+Transparency for master AI (Jan 2020). The code from the original
+paper is also in this repo, together with our own implementations.
+
+** Collaborators
+   - Tom Lotze
+   - Berend Jansen
+   - Stan Lochtenberg
+   - Cees Kaandorp
+
+** Files
+All files can be found in the folder "Reproduction". 
+- Final_notebook: this file gives a demo of all the code necessary to
+  train the models and reproduce the results we obtained. It also
+  loads all the models that we trained and reports the accuracy and
+  prototypes.
+- train_mnist_cifar.py: python script to train the prototype model on CIFAR-10.
+- train_mnist_cifar.sh: bash script to train prototype model on
+  CIFAR-10 on Surfsara's Lisa cluster.
+- train_mnist_standard.py: python script to train the prototype model
+  on standard MNIST.
+- train_mnist_standard.sh: bash script to train prototype model on
+  standard MNIST on Surfsara's Lisa cluster.
+- train_mnist_rgb2gray.py: python script to train the prototype model on gray MNIST.
+- train_mnist_rgb2gray.sh: bash script to train prototype model on
+  gray MNIST on Surfsara's Lisa cluster.
+- train_mnist_color.py: python script to train the prototype model on color MNIST.
+- train_mnist_color.sh: bash script to train prototype model on
+  color MNIST on Surfsara's Lisa cluster.
+
