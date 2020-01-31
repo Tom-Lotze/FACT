@@ -57,7 +57,7 @@ n_input_channels = 1
 image_size = 28
 if WHICH_DATA_FLAG == "mnist_original":
     model_folder = os.path.join(os.getcwd(), "saved_model",
-                                "mnist_model_standard")
+                                "mnist_model_standard_")
     # model_folder = model_original
     model_filename = "mnist_original"
 elif WHICH_DATA_FLAG == "mnist_color":
@@ -72,7 +72,7 @@ elif WHICH_DATA_FLAG == "mnist_rgb2gray":
     # model_folder = model_mnist_rgb2gray
     model_filename = "mnist_rgb2gray"
 elif WHICH_DATA_FLAG == "cifar":
-    model_folder = os.path.join(os.getcwd(), "saved_model", "cifar")
+    model_folder = os.path.join(os.getcwd(), "saved_model", "cifar_")
     # model_folder = model_cifar
     model_filename = "cifar"
     n_input_channels = 3
@@ -1034,7 +1034,7 @@ for i in range(len(lambdas_class)):
                 with torch.no_grad():
                     if epoch % test_display_step == 0:
 
-                        torch.save(model, model_folder + "/" +
+                        torch.save(model, model_folder_ext + "/" +
                                    model_filename + "_epoch_"
                                    + str(epoch) + '.pt')
 
@@ -1112,7 +1112,7 @@ for i in range(len(lambdas_class)):
                     print('Valid acc:', valid_accuracy)
 
             # Save results
-            metrics_folder = os.path.join(model_folder, "metrics")
+            metrics_folder = os.path.join(model_folder_ext, "metrics")
             makedirs(metrics_folder)
 
             with open(metrics_folder + '/train_accs.p', 'wb') as f:
